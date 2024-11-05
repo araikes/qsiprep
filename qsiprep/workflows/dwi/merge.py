@@ -412,6 +412,11 @@ def init_dwi_denoising_wf(
     harmonize_b0s = not config.workflow.no_b0_harmonization
     # Configure the denoising window
     if (
+        config.workflow.denoise_method == "patch2self"
+    ) and config.workflow.dwi_denoise_window == "auto":
+        dwi_denoise_window = "auto"
+        config.loggers.workflow.info("Using developer recommended settings for patch2self")
+    elif (
         config.workflow.denoise_method == "dwidenoise"
     ) and config.workflow.dwi_denoise_window == "auto":
         dwi_denoise_window = 5
