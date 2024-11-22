@@ -414,13 +414,15 @@ def init_dwi_denoising_wf(
     if (
         config.workflow.denoise_method == "patch2self"
     ) and config.workflow.dwi_denoise_window == "auto":
-        dwi_denoise_window = "auto"
+        dwi_denoise_window = 0
         config.loggers.workflow.info("Using developer recommended settings for patch2self")
     elif (
         config.workflow.denoise_method == "dwidenoise"
     ) and config.workflow.dwi_denoise_window == "auto":
         dwi_denoise_window = 5
         config.loggers.workflow.info("Automatically using 5, 5, 5 window for dwidenoise")
+    else:
+        dwi_denoise_window = config.workflow.dwi_denoise_window
 
     # How many steps in the denoising pipeline
     num_steps = sum(map(int, [do_denoise, do_unringing, do_biascorr, harmonize_b0s]))
